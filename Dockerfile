@@ -26,15 +26,30 @@ ADD etc/supervisord.d /etc/supervisord.d
 ADD etc/supervisord.conf /etc/supervisord.conf
 
 ## create a compute node (slurm)
-RUN apt-get install -y slurm-llnl
+#RUN apt-get install -y slurm-llnl
+ADD slurm_14.11_amd64.deb /tmp/
+RUN dpkg -i /tmp/slurm_14.11_amd64.deb
+RUN rm -f /tmp/slurm_14.11_amd64.deb
+ADD slurm.conf /usr/local/etc/
 
+## munge
+RUN apt-get install -y munge
+RUN mkdir -p /var/log/munge;mkdir -p /var/lib/munge;mkdir -p /var/run/munge
+RUN chown root: /var/log/munge /var/lib/munge /var/run/munge /etc/munge
+ADD etc/munge/munge.key /etc/munge/munge.key
 
 RUN apt-get install -y curl
 RUN echo "deb http://ppa.launchpad.net/narayan-desai/infiniband/ubuntu precise main " >> /etc/apt/sources.list
-RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys F583E9CA3A95A7BADF2B33278F491D5599E66448
+#RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys F583E9CA3A95A7BADF2B33278F491D5599E66448
 RUN apt-get update
-RUN apt-get install -y libibcommon1 libibumad1 libibumad1 infiniband-diags openmpi1.5-bin
+RUN apt-get install -y --force-yes libibcommon1 libibumad1 libibumad1 infiniband-diags openmpi1.5-bin
+ADD libmlx4-1_1.0.5-1_amd64.deb /tmp/
+RUN dpkg -i /tmp/libmlx4-1_1.0.5-1_amd64.deb
+RUN rm -rf  /tmp/libmlx4-1_1.0.5-1_amd64.deb
 
+# make
+RUN apt-get install -y make gcc automake libtool libopenmpi1.5-dev
+RUN apt-get install -y g++
 
 CMD supervisord -c /etc/supervisord.conf
 
