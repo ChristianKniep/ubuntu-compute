@@ -33,7 +33,7 @@ RUN rm -f /tmp/slurm_14.11_amd64.deb
 ADD slurm.conf /usr/local/etc/
 
 ## munge
-RUN apt-get install -y munge
+RUN apt-get update;apt-get install -y munge
 RUN mkdir -p /var/log/munge;mkdir -p /var/lib/munge;mkdir -p /var/run/munge
 RUN chown root: /var/log/munge /var/lib/munge /var/run/munge /etc/munge
 ADD etc/munge/munge.key /etc/munge/munge.key
@@ -50,6 +50,12 @@ RUN rm -rf  /tmp/libmlx4-1_1.0.5-1_amd64.deb
 # make
 RUN apt-get install -y make gcc automake libtool libopenmpi1.5-dev
 RUN apt-get install -y g++
+
+# SETUP env
+RUN useradd -u 5000 -d /usr/local/etc/ -M slurm
+RUN mkdir -p /var/lib/slurm/; mkdir -p /var/log/slurm/; mkdir -p /var/run/slurm/; mkdir -p /var/spool/slurmd
+RUN chmod 755 /var/lib/slurm/ /var/log/slurm/ /var/run/slurm/ /var/spool/slurmd
+RUN chown slurm /var/lib/slurm/ /var/log/slurm/ /var/run/slurm/ /var/spool/slurmd
 
 CMD supervisord -c /etc/supervisord.conf
 
