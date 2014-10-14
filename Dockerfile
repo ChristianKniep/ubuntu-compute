@@ -57,5 +57,16 @@ RUN mkdir -p /var/lib/slurm/; mkdir -p /var/log/slurm/; mkdir -p /var/run/slurm/
 RUN chmod 755 /var/lib/slurm/ /var/log/slurm/ /var/run/slurm/ /var/spool/slurmd
 RUN chown slurm /var/lib/slurm/ /var/log/slurm/ /var/run/slurm/ /var/spool/slurmd
 
+#OpenMPI
+WORKDIR /tmp
+RUN wget -q http://repo.qnib.org/ubuntu/12.04/amd64/qnib-openmpi183_1.8.3-20141004.16_amd64.deb
+RUN wget -q http://repo.qnib.org/ubuntu/12.04/amd64/qnib-openmpi154_1.5.4-20141006.8_amd64.deb
+#RUN wget -q http://repo.qnib.org/ubuntu/12.04/amd64/qnib-openmpi175_1.7.5-20141005.13_amd64.deb
+RUN wget -q http://repo.qnib.org/ubuntu/12.04/amd64/qnib-openmpi164_1.6.4-20141007.1_amd64.deb
+#RUN wget -q http://repo.qnib.org/ubuntu/12.04/amd64/qnib-openmpi165_1.6.5-20141006.9_amd64.deb
+RUN wget -q http://repo.qnib.org/ubuntu/12.04/amd64/qnib-openmpi155_1.5.5-20141006.2_amd64.deb
+RUN dpkg -i qnib-openmpi*.deb
+RUN rm -f qnib-openmpi*.deb
+
 CMD supervisord -c /etc/supervisord.conf
 
