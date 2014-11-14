@@ -1,4 +1,4 @@
-FROM ubuntu:14.10
+FROM ubuntu:13.10
 MAINTAINER "Christian Kniep <christian@qnib.org>"
 
 RUN echo "2014-10-02.1";apt-get update
