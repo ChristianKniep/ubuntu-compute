@@ -56,5 +56,7 @@ RUN mkdir -p /var/lib/slurm/; mkdir -p /var/log/slurm/; mkdir -p /var/run/slurm/
 RUN chmod 755 /var/lib/slurm/ /var/log/slurm/ /var/run/slurm/ /var/spool/slurmd
 RUN chown slurm /var/lib/slurm/ /var/log/slurm/ /var/run/slurm/ /var/spool/slurmd
 
+RUN apt-get install -y lsb-release
+
 CMD supervisord -c /etc/supervisord.conf
 
