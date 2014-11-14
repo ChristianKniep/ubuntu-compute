@@ -1,4 +1,4 @@
-FROM ubuntu:12.04
+FROM ubuntu:14.10
 MAINTAINER "Christian Kniep <christian@qnib.org>"
 
 RUN echo "2014-10-02.1";apt-get update
@@ -42,13 +42,12 @@ RUN apt-get install -y curl
 RUN echo "deb http://ppa.launchpad.net/narayan-desai/infiniband/ubuntu precise main " >> /etc/apt/sources.list
 #RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys F583E9CA3A95A7BADF2B33278F491D5599E66448
 RUN apt-get update
-RUN apt-get install -y --force-yes libibcommon1 libibumad1 libibumad1 infiniband-diags openmpi1.5-bin
-ADD libmlx4-1_1.0.5-1_amd64.deb /tmp/
-RUN dpkg -i /tmp/libmlx4-1_1.0.5-1_amd64.deb
-RUN rm -rf  /tmp/libmlx4-1_1.0.5-1_amd64.deb
+#RUN apt-get install -y --force-yes libibcommon1 libibumad1 libibumad1 infiniband-diags openmpi1.5-bin
+RUN apt-get install -y --force-yes libibcommon1 libibumad1 libibumad1 infiniband-diags openmpi-bin libmlx4-1
 
 # make
-RUN apt-get install -y make gcc automake libtool libopenmpi1.5-dev
+#RUN apt-get install -y make gcc automake libtool libopenmpi1.5-dev
+RUN apt-get install -y make gcc automake libtool libopenmpi-dev
 RUN apt-get install -y g++
 
 # SETUP env
