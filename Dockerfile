@@ -1,4 +1,4 @@
-FROM ubuntu:14.10
+FROM ubuntu:12.04
 MAINTAINER "Christian Kniep <christian@qnib.org>"
 
 RUN echo "2014-10-02.1";apt-get update
@@ -38,8 +38,9 @@ RUN mkdir -p /var/log/munge;mkdir -p /var/lib/munge;mkdir -p /var/run/munge
 RUN chown root: /var/log/munge /var/lib/munge /var/run/munge /etc/munge
 ADD etc/munge/munge.key /etc/munge/munge.key
 
+RUN apt-get update;apt-get install -y lsb-release
 RUN apt-get install -y curl
-RUN echo "deb http://ppa.launchpad.net/narayan-desai/infiniband/ubuntu precise main " >> /etc/apt/sources.list
+RUN echo "deb http://ppa.launchpad.net/narayan-desai/infiniband/ubuntu $(lsb_release -cs) main " >> /etc/apt/sources.list
 #RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys F583E9CA3A95A7BADF2B33278F491D5599E66448
 RUN apt-get update
 #RUN apt-get install -y --force-yes libibcommon1 libibumad1 libibumad1 infiniband-diags openmpi1.5-bin
@@ -56,7 +57,6 @@ RUN mkdir -p /var/lib/slurm/; mkdir -p /var/log/slurm/; mkdir -p /var/run/slurm/
 RUN chmod 755 /var/lib/slurm/ /var/log/slurm/ /var/run/slurm/ /var/spool/slurmd
 RUN chown slurm /var/lib/slurm/ /var/log/slurm/ /var/run/slurm/ /var/spool/slurmd
 
-RUN apt-get install -y lsb-release
 
 CMD supervisord -c /etc/supervisord.conf
 
