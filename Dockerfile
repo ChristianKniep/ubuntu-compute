@@ -37,6 +37,7 @@ RUN apt-get update;apt-get install -y munge
 RUN mkdir -p /var/log/munge;mkdir -p /var/lib/munge;mkdir -p /var/run/munge
 RUN chown root: /var/log/munge /var/lib/munge /var/run/munge /etc/munge
 ADD etc/munge/munge.key /etc/munge/munge.key
+RUN chmod 600 /etc/munge/munge.key
 
 RUN apt-get install -y curl
 RUN echo "deb http://ppa.launchpad.net/narayan-desai/infiniband/ubuntu precise main " >> /etc/apt/sources.list
