@@ -4,8 +4,8 @@ MAINTAINER "Christian Kniep <christian@qnib.org>"
 RUN echo "2014-10-02.1";apt-get update
 
 ## cluser
-RUN mkdir -p /chome
-RUN useradd -u 2000 -M -d /chome/cluser cluser
+RUN mkdir -p /chome/cluser
+RUN useradd -u 2000 -M -d /chome/cluser cluser;chown cluser: /chome/cluser
 RUN echo "cluser:cluser"|chpasswd
 ## basic install
 RUN apt-get install -y vim gnuplot
